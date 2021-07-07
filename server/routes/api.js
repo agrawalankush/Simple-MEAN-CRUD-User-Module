@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-
+const ObjectId = require('mongodb').ObjectID;
 //define mongo url string and database
 const mongourl = 'mongodb://localhost:27017';
 const dbName = 'UserModule';
@@ -28,21 +28,77 @@ const sendError = (err, res) => {
 };
 
 
-// Get users
+// Welcome API
 router.get('/welcome', (req, res) => {
-
-    // sportname=req.params.sportname;
-    // connection((db) => {
-    //     db.collection('sports_new')
-    //         .find({"name":sportname})
-    //         .toArray()
-    //         .then((sports) => {
-    //             res.status(200).json(sports);
-    //         })
-    //         .catch((err) => {
-    //             sendError(err, res);
-    //         });
-    // });
     res.end('Welcome to user module server!');
 });
+router.get('/user/all', (req, res, next) => {
+  // console.log(req);
+  connection((db) => {
+    db.collection('users')
+        .find({})
+        .toArray()
+        .then((allusers) => {
+            // console.log(allusers);
+            res.status(200).json(allusers);
+        })
+        .catch((err) => {
+            sendError(err, res);
+        });
+});
+});
+
+router.delete('/user/:id', (req, res, next) => {
+  connection((db) => {
+    db.collection('users')
+    .remove({
+      "_id": ObjectId(req.params.id)
+    })
+    .then((userdata) => {
+      res.json({ success: true, msg: `Deleted user ${userdata.firstName} successfully!!` });
+    })
+    .catch((err) => {
+        sendError(err, res);
+    });
+ });
+});
+router.post('/user/create',function(req,res){
+  //let userdata =req.body;
+  let userdata = {
+   firstName: req.body.firstName,
+   lastName: req.body.lastName,
+   email:req.body.email,
+   phoneNumber: req.body.phoneNumber,
+   created : +new Date(),
+};
+   //console.log(userdata);
+   connection((db) => {
+      db.collection('users')
+      .insert(userdata)
+      .then((userdata) => {
+          response.data = userdata;
+          res.json(userdata);
+      })
+      .catch((err) => {
+          sendError(err, res);
+      });
+   });
+  }
+);
+router.put('/user/update/:id', (req, res, next) => {
+  // console.log(req);
+  const query = {"_id": ObjectId(req.params.id)};
+  const update = { $set: req.body };
+  const options = { upsert: false };
+    connection((db) => {
+      db.collection('users')
+      .updateOne(query, update, options)
+      .then((userdata) => {
+        res.json({ success: true, msg: `Updated user ${userdata.firstName} successfully!!` });
+      })
+      .catch((err) => {
+          sendError(err, res);
+      });
+   });
+  });
 module.exports = router;

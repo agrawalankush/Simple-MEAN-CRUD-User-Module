@@ -1,1 +1,43 @@
-<p>Create User form will live here!!</p>
+<h2 mat-dialog-title *ngIf="!this.data.user">Create User</h2>
+<h2 mat-dialog-title *ngIf="this.data.user">Update User</h2>
+<mat-error *ngIf="errmsg">{{errmsg}}</mat-error>
+<mat-dialog-content>
+  <form [formGroup]="createuserform" class="login-container">
+    <mat-form-field  appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName">
+      <mat-error *ngIf="createuserform.get('firstName').hasError('required')">
+        firstName is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName">
+      <mat-error *ngIf="createuserform.get('lastName').hasError('required')">
+        lastName is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="example@gmail.com">
+      <mat-error *ngIf="createuserform.get('email').hasError('required')">
+        email is required
+      </mat-error>
+      <mat-error *ngIf="createuserform.get('email').hasError('email')">
+          Please enter valid email id
+      </mat-error>
+    </mat-form-field>
+  <mat-form-field  appearance="outline">
+    <mat-label>Mobile Number</mat-label>
+    <input matInput formControlName="phoneNumber" placeholder="10 digit number">
+    <mat-error *ngIf="createuserform.get('phoneNumber').hasError('required')">
+      phoneNumber is required
+    </mat-error>
+  </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-flat-button *ngIf="!this.data.user" [disabled]="!createuserform.valid" (click)="createUser()" color="primary">Create</button>
+  <button mat-flat-button *ngIf="this.data.user" [disabled]="!createuserform.valid" (click)="updateUser()" color="primary">Update</button>
+</mat-dialog-actions>

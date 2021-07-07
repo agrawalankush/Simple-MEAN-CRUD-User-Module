@@ -7,3 +7,6 @@
   right: 10px;
   bottom: 10px;
 }
+.user-card {
+  max-width: 400px;
+}
