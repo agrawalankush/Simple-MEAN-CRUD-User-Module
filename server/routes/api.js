@@ -74,11 +74,7 @@ router.post("/user/create", function (req, res) {
   // console.log(req.files);
   let uploadPath;
   let file = req.files.image;
-  uploadPath = path.resolve(
-    __dirname,
-    "../../dist/profile_images/",
-    req.files.image.name
-  );
+  uploadPath = path.resolve(__dirname, "../../dist/profile_images/", req.files.image.name);
   // console.log('Upload Path', uploadPath); // Upload Path
   // console.log('list of the files',req.files); // list of the files
   // console.log('request body', req.body); // request body, like email

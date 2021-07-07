@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogCreateUserComponent } from '../dialog-create-user/dialog-create-user.component';
 import { UserService } from './user.service';
+import { HotToastService } from '@ngneat/hot-toast';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -10,7 +11,7 @@ import { UserService } from './user.service';
 export class UsersComponent implements OnInit {
   users: any;
   errmsg: string;
-  constructor(private dialog: MatDialog, private userservice: UserService) { }
+  constructor(private dialog: MatDialog, private userservice: UserService, private toastservice: HotToastService) { }
 
   ngOnInit(): void {
     this.getusers();
@@ -33,6 +34,7 @@ export class UsersComponent implements OnInit {
           (res: any) => {
             if (res.success) {
               // console.log(res.msg);
+              this.toastservice.success('Deleted User Successfully.');
               this.getusers();
             }
           },
@@ -51,6 +53,11 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      if(user) {
+      this.toastservice.success('User Added Successfully.');
+     } else {
+      this.toastservice.success('User Updated Successfully.');
+     }
       this.getusers();
     });
 

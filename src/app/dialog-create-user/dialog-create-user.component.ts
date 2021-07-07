@@ -26,7 +26,7 @@ export class DialogCreateUserComponent implements OnInit {
       firstName:['', Validators.required],
       lastName:['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       image : ['', [Validators.required, requiredFileType('jpeg')]]
     });
     if(this.data.user) {

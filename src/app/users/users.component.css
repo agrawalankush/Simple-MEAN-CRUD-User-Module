@@ -2,6 +2,10 @@
   margin: 24px;
   text-align: center;
 }
+.users-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
 .add-button {
   position: absolute;
   right: 10px;
@@ -10,6 +14,10 @@
 .user-card {
   max-width: 400px;
   max-height: 500px;
+  margin: 8px;
+}
+.user-header-image {
+  background-size: cover;
 }
 .user-card-image {
   height:280px;
