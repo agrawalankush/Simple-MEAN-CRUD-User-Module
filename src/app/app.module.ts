@@ -8,10 +8,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './users/users.component';
 import { DialogCreateUserComponent } from './dialog-create-user/dialog-create-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ProgressComponent } from './progress/progress.component';
+import { HotToastModule } from '@ngneat/hot-toast';
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
+    FileUploadComponent,
+    ProgressComponent,
     DialogCreateUserComponent
   ],
   imports: [
@@ -20,7 +26,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    HotToastModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

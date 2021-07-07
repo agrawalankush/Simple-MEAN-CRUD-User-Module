@@ -5,6 +5,7 @@ const path = require('path');
 const compression = require('compression');
 const http = require('http');
 const helmet = require('helmet');
+const fileUpload = require('express-fileupload');
 const app = express();
 
 // API file for interacting with MongoDB
@@ -20,6 +21,8 @@ app.use(bodyParser.urlencoded({ extended: false}));
 //gzip cpmpression
 app.use(compression());
 
+// file Upload
+app.use(fileUpload());
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
 // app.use(express.static(path.join(__dirname, 'The_Olympic_Dream')));

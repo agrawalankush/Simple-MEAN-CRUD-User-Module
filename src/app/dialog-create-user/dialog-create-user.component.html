@@ -34,8 +34,18 @@
       phoneNumber is required
     </mat-error>
   </mat-form-field>
+  <div *ngIf="!this.data.user">
+    <label>Profile Picture</label>
+    <app-file-upload formControlName="image" [progress]="userservice.progress"></app-file-upload>
+    <div class="invalid-feedback" style="display: block">
+      <mat-error *ngIf="createuserform.get('image').hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="createuserform.get('image').hasError('requiredFileType')">Only JPEG 🤡</mat-error>
+    </div>
+  </div>
   </form>
+  <!-- <pre> {{ createuserform.value | json}}</pre> -->
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
   <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
   <button mat-flat-button *ngIf="!this.data.user" [disabled]="!createuserform.valid" (click)="createUser()" color="primary">Create</button>

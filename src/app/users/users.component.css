@@ -9,4 +9,10 @@
 }
 .user-card {
   max-width: 400px;
+  max-height: 500px;
+}
+.user-card-image {
+  height:280px;
+  padding:0px;
+  object-fit: cover;
 }

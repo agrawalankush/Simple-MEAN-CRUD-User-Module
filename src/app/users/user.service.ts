@@ -1,7 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import {  catchError, retry } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { pipe, throwError } from 'rxjs';
+import {  catchError, filter, map, retry, tap } from 'rxjs/operators';
+export function uploadProgress<T>( cb: ( progress: number ) => void ) {
+  return tap(( event: HttpEvent<T> ) => {
+    if ( event.type === HttpEventType.UploadProgress ) {
+      cb(Math.round((100 * event.loaded) / event.total));
+    }
+  });
+}
+
+export function toResponseBody<T>() {
+  return pipe(
+    filter(( event: HttpEvent<T> ) => event.type === HttpEventType.Response),
+    map(( res: HttpResponse<T> ) => res.body)
+  );
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +23,7 @@ export class UserService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   };
+  progress = 0;
   private baseurl = '/api/user';
   constructor(private http: HttpClient) { }
   getallusers()
@@ -20,10 +35,15 @@ export class UserService {
     }
 
   createuser(userform: any) {
-    return this.http.post(`${this.baseurl}/create`, userform, this.httpOptions)
-    .pipe(
+    return this.http.post(`${this.baseurl}/create`, userform, {
+      reportProgress: true,
+      observe: 'events'
+    }).pipe(
+      uploadProgress(progress => (this.progress = progress)),
+      toResponseBody(),
+      retry(1),
       catchError(this.handleError)
-    );;
+    );
   }
   updateuser(userform: any, id:number) {
     return this.http.put(`${this.baseurl}/update/${id}`, userform, this.httpOptions)
