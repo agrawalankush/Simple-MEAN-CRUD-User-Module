@@ -1,27 +1,17 @@
-# UserModuleTask
+## Starting the App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+Getting started with running and development:
+```
+npm install
 
-## Development server
+Open two terminals, in one run:
+ng build --watch
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+If you want to build production app run:
+ng build --prod
 
-## Code scaffolding
+in other run:
+nodemon server
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+If the setup was done correctly you should see your app running at [http://localhost:3000]
+```
